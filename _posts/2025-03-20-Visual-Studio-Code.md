@@ -1,5 +1,5 @@
 ---
-title: vs configuration
+title: "vs configuration"
 date: 2025-03-20 03:39:16 +0800
 categories: [Tool, Visual Studio Code]
 tags: [config]     # TAG names should always be lowercase
