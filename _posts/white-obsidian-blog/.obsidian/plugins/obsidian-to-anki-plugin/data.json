@@ -1,0 +1,149 @@
+{
+  "settings": {
+    "CUSTOM_REGEXPS": {
+      "图片遮盖": "",
+      "填空题": "((?:[^\\n][\\n]?)+) #clozecard ?\\n*((?:\\n(?:^.{1,3}$|^.{4}(?<!<!--).*))+)",
+      "问答题": "((?:[^\\n][\\n]?)+) #flashcard ?\\n*((?:\\n(?:^.{1,3}$|^.{4}(?<!<!--).*))+)",
+      "问答题（同时生成翻转的卡片<可选>）": "",
+      "问答题（同时生成翻转的卡片）": "",
+      "问答题（输入答案）": "((?:[^\\n][\\n]?)+) #flashcard ?\\n*((?:\\n(?:^.{1,3}$|^.{4}(?<!<!--).*))+)"
+    },
+    "FILE_LINK_FIELDS": {
+      "图片遮盖": "遮盖",
+      "填空题": "Obsidian Link",
+      "问答题": "Obsidian Link",
+      "问答题（同时生成翻转的卡片<可选>）": "正面",
+      "问答题（同时生成翻转的卡片）": "正面",
+      "问答题（输入答案）": "Obsidian Link"
+    },
+    "CONTEXT_FIELDS": {
+      "问答题": "Obsidian Context",
+      "填空题": "Obsidian Context",
+      "问答题（输入答案）": "Obsidian Context"
+    },
+    "FOLDER_DECKS": {
+      "c++ grammar": "c++",
+      "CS61B_obs": "cs61b",
+      "CS61C-obs": "cs61c",
+      "Git": "",
+      "Images": "",
+      "Leetcode": "leetcode",
+      "Plan": "",
+      "Tools": "",
+      "python": "",
+      "数据结构": "数据结构",
+      "CS61B_obs/lab": "cs61b",
+      "CS61B_obs/lecture": "cs61b",
+      "CS61B_obs/pro": "cs61b",
+      "CS61B_obs/问题日志": "",
+      "CS61B_obs/lecture/lec 10": "cs61b"
+    },
+    "FOLDER_TAGS": {
+      "c++ grammar": "",
+      "CS61B_obs": "",
+      "CS61C-obs": "",
+      "Git": "",
+      "Images": "",
+      "Leetcode": "",
+      "Plan": "",
+      "Tools": "",
+      "python": "",
+      "数据结构": "",
+      "CS61B_obs/lab": "",
+      "CS61B_obs/lecture": "",
+      "CS61B_obs/pro": "",
+      "CS61B_obs/问题日志": "",
+      "CS61B_obs/lecture/lec 10": ""
+    },
+    "Syntax": {
+      "Begin Note": "START",
+      "End Note": "END",
+      "Begin Inline Note": "STARTI",
+      "End Inline Note": "ENDI",
+      "Target Deck Line": "TARGET DECK",
+      "File Tags Line": "FILE TAGS",
+      "Delete Note Line": "DELETE",
+      "Frozen Fields Line": "FROZEN"
+    },
+    "Defaults": {
+      "Scan Directory": "",
+      "Tag": "Obsidian_to_Anki",
+      "Deck": "Default",
+      "Scheduling Interval": 0,
+      "Add File Link": true,
+      "Add Context": true,
+      "CurlyCloze": true,
+      "CurlyCloze - Highlights to Clozes": false,
+      "ID Comments": true,
+      "Add Obsidian Tags": false
+    },
+    "IGNORED_FILE_GLOBS": [
+      "**/*.excalidraw.md"
+    ]
+  },
+  "Added Media": [],
+  "File Hashes": {
+    "数据结构/LinkList.md": "f3767364f6235140cc9a8a1b7242d2b2",
+    "VS Code.md": "224ca14434ea80fdcd542e2437280662",
+    "Tools/Vim.md": "5318ac6c6f01c995f6c9ae40ef94f323",
+    "Tools/obsidian的用法.md": "1cebe05d39af3023f317a9d12315530e",
+    "python/01 变量和数据类型.md": "4a271ae0615e445f7aafef77b4d169bc",
+    "python/02 列表.md": "626c105a549e59a348ccbba85dacee98",
+    "Plan/考研信息.md": "753c866678b1e32bf7b665872f25598b",
+    "Plan/绩点.md": "9e7b23fe01c9556f015bb475d12abd8c",
+    "Leetcode/3. add two numbers.md": "cd4704825a0526563cfe66eced82fc41",
+    "Leetcode/经验.md": "bdb54ea3f4bf41aee4498856c6e36d06",
+    "Leetcode/1.two sum.md": "0a2d2f7f4e53c3e5d206d2d53ed8949f",
+    "Leetcode/2.Palindrome numbers.md": "cbef215d85d45fe4ad60503305ebebe2",
+    "Git/推送本地文件夹.md": "c94d115d21b6b711c86d15a29aed25f8",
+    "Git/常识.md": "00795553461c45ccabc478b4743207ba",
+    "Git/克隆别人的存储库.md": "979b7fd4cb8329eebd210dbe6cb874c8",
+    "CS61C-obs/立即数的符号扩展.md": "1da102cc131ac79a87770ce0f35ced4a",
+    "CS61C-obs/load与store指令中的立即数符号扩展.md": "6cd11b0f81b3a64f0c75dfbaa4564dd7",
+    "CS61B_obs/问题日志/7.29.md": "589a581d654ddec5fa1956c774d56c10",
+    "CS61B_obs/pro/project 1.md": "a782d77901e7807fab2515a8a70bc832",
+    "CS61B_obs/lecture/lec 10/方法调用问题.md": "81ad9b109b6a614da17fee767b84bda7",
+    "CS61B_obs/lecture/lec 10/静态类型vs.动态类型.md": "39b441cf9e959a5e7b6143403a9046bc",
+    "CS61B_obs/lab/lab2-Debug.md": "e4e470fbf72a58607864ac8ad6d9cd7b",
+    "CS61B_obs/lab/lab-1A.md": "c2fdb5584b82d266241240202662ead0",
+    "c++ grammar/细节.md": "b53b6109d0bf7f8410f9f9d3119d5c01",
+    "c++ grammar/array.md": "faf1a901f5f69be1fc9498af56dd5431",
+    "c++ grammar/new语句.md": "efe1d953f92bb38578c806993d2294a6"
+  },
+  "fields_dict": {
+    "图片遮盖": [
+      "遮盖",
+      "图片",
+      "标题",
+      "背面额外",
+      "注释"
+    ],
+    "填空题": [
+      "文字",
+      "背面额外",
+      "Obsidian Link",
+      "Obsidian Context"
+    ],
+    "问答题": [
+      "正面",
+      "背面",
+      "Obsidian Link",
+      "Obsidian Context"
+    ],
+    "问答题（同时生成翻转的卡片<可选>）": [
+      "正面",
+      "背面",
+      "增加翻转的卡片"
+    ],
+    "问答题（同时生成翻转的卡片）": [
+      "正面",
+      "背面"
+    ],
+    "问答题（输入答案）": [
+      "正面",
+      "背面",
+      "Obsidian Link",
+      "Obsidian Context"
+    ]
+  }
+}
