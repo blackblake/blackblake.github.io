@@ -1,7 +1,8 @@
 ---
-title: configuration
-categories:
-  - visual studio
+title: vs configuration
+date: 2025-03-20 03:39:16 +0800
+categories: [Tool, Visual Studio Code]
+tags: [config]     # TAG names should always be lowercase
 ---
 ![[截屏2025-03-07 21.30.53.png]]
 
