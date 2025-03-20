@@ -6,7 +6,7 @@ tags: [os]     # TAG names should always be lowercase
 ---
 ## sleep.c
 ---
-#### 1）
+### 1）
 **Look at some of the other programs in user/ (e.g., user/echo.c, user/grep.c, and user/rm.c) to see how you can obtain the command-line arguments passed to a program.**
 
 ```c
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 main函数接受两个命令行参数：
 - `argc`：命令行参数的数量（包括程序名称本身，如echo）；
 - `argv`：一个字符串数组，包含所有的命令行参数。`argv[0]`是程序名称，`argv[1]`是第一个参数，以此类推；
-#### 2）
+### 2）
 **If the user forgets to pass an argument, sleep should print an error message.**
 
 ```c
@@ -30,7 +30,7 @@ if(argc <= 1){//如果只输入了程序名称argv[0]或者连程序名称都没
 - 1: 标准输出 (stdout)
 - 2: 标准错误 (stderr)
 
-#### 3）
+### 3）
  **The command-line argument is passed as a string; you can convert it to an integer using `atoi`.
 
 ```c
@@ -64,7 +64,7 @@ int atoi(const char *s)
 }
 ```
 
-#### 4）
+### 4）
  **"See `kernel/sysproc.c` for the xv6 kernel code that implements the sleep system call (look for sys_sleep), user/user.h for the C definition of sleep callable from a user program, and `user/usys.S` for the assembler code that jumps from user code into the kernel for sleep."**
 
 `sysproc.c`中定义了xv6所有用来进行 **进程管理** 的系统调用，比如`sys_fork`就在其中，而上面提到的`sys_open`就不在其中(而在`sysfile.c`中)；
@@ -168,7 +168,7 @@ sleep(&ticks, &tickslock);
 
 ## pingpong.c
 ---
-#### 第一次的笔记
+### 第一次的笔记
 
 1. **怎么指定管道的读端p\[0]和写端p\[1]？**
 	
@@ -237,9 +237,9 @@ else { printf("fork error\n"); exit(1); }
 
 ### 第二次的笔记
 
-##### 1）记住fork()给子进程返回的是0，父进程是>0，fork失败是<0.
+#### 1）记住fork()给子进程返回的是0，父进程是>0，fork失败是<0.
 
-##### 2）sys_pipe实现（错误处理代码一概省略了）
+#### 2）sys_pipe实现（错误处理代码一概省略了）
 ```c
 uint64
 sys_pipe(void)
@@ -271,11 +271,11 @@ sys_pipe(void)
 }
 ```
 我们就这个系统调用的实现代码来分别解释一下其中主要的几个函数：
-###### 1. `argaddr(0, &fdarray);`
+##### 1. `argaddr(0, &fdarray);`
 这个函数和`sys_sleep`中的`argint`一样，都是从用户进程的trapframe读取寄存器的值，
 存储到&fdarray这个数组地址中，参数0表示从a0参数寄存器读取。
 
-###### 2. `pipealloc(&rf, &wf)`
+##### 2. `pipealloc(&rf, &wf)`
 
 ```c
 int
@@ -319,7 +319,7 @@ pipealloc(struct file *f0, struct file *f1)
 - 详细的解释见注释
 - 总之，`pipealloc()`函数的作用就是为创建并初始化一个pipe结构体pi，再为作为参数传入的两个file结构体f0和f1初始化，并为这3个结构体设置相应的读/写属性。
 
-###### 3. `struct pipe`
+##### 3. `struct pipe`
 
 ```c
 struct pipe {
@@ -332,7 +332,7 @@ struct pipe {
 };
 ```
 
-###### 4. `fd0 = fdalloc(rf))`
+##### 4. `fd0 = fdalloc(rf))`
 ```c
 // Allocate a file descriptor for the given file.
 // Takes over file reference from caller on success.
@@ -359,7 +359,7 @@ fdalloc(struct file *f)
     - 返回该槽位的索引作为新的文件描述符
   - 如果所有文件描述符都已使用，则返回 -1 表示失败
 
-###### 5. `copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0))`
+##### 5. `copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0))`
 ```c
 // Copy from kernel to user.
 // Copy len bytes from src to virtual address dstva in a given page table.
@@ -389,28 +389,64 @@ copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len)
 1. 这个`copyout`函数实现的功能是：把内核空间的大小为len的变量`src`的值复制到用户空间的变量`dstva`上（具体实现代码等到做完lab3再回头看一下）
 2. 在`sys_pipe`中，调用这个函数达到了“把内核空间所定义的`fd0`和`fd1`这两个文件描述符的值，复制传递给了用户进程中的`fdarray`这个数组(`fdarray`是我们所定义的int fd\[2]这个数组在用户地址空间中的内存地址)”的功能
 
-###### 6. `sys_pipe`总结
+##### 6. `sys_pipe`总结
 
 现在，我们可以总结sys_pipe这个系统调用的过程：
-  - 我在用户进程中定义一个int fd\[2]，但没有初始化它的元素是什么，因为文件描述符不是我可以指定的值，而是内核决定的（通过遍历当前进程的ofile来找到可分配的文件描述符）。
+  - 我在用户进程中定义一个int fd\[2]，但没有初始化它的元素是什么，**因为文件描述符不是我可以指定的值，而是内核决定的**（通过遍历当前进程的ofile来找到可分配的文件描述符）。
   - 然后在sys_pipe中，把内核所确定的两个文件描述符fd0、fd1从内核空间复制到用户空间的fdarray数组中
   - 那么我定义的`int fd\[2]`和用户空间的`fdarray`是怎么“等价到一起的”？
     - 其实，后者就是前者在用户地址空间中的内存地址，通过`argaddr(0, &fdarray)`绑定(fd就是我们的用户进程向内核空间传入的参数，存放在a0寄存器中)
 
-##### 3）pipe()系统调用的函数原型
+#### 3）pipe()系统调用的函数原型
 ```c
 int pipe(int* fd[2]); //fd是一个包含两个int整数的数组
 ```
 
 参数：
-  - fildes[0] 是管道的读取端（读端）文件描述符
-  - fildes[1] 是管道的写入端（写端）文件描述符
+  - fd[0] 是管道的读取端（读端）文件描述符
+  - fd[1] 是管道的写入端（写端）文件描述符
 
 返回值：
   - 当 pipe() 调用成功时，它返回 0。
   - 如果调用失败，则返回 -1，并设置相应的 errno 值表明失败原因。
 
+#### 4）整个pipe系统调用的流程
 
+当用户调用`pipe`系统调用时，整个流程如下：
+
+##### 用户空间部分
+1. 用户程序定义一个整型数组：`int fd[2];`
+2. 用户程序调用：`pipe(fd);`
+3. `pipe()`函数通过系统调用接口陷入内核
+
+##### 内核空间部分
+4. 系统调用处理程序将控制权转交给`sys_pipe()`函数
+
+5. `sys_pipe()`函数执行以下步骤：
+  - 从用户栈获取`fd`数组的地址，保存为`fdarray`
+  - 为管道分配一个`struct pipe`数据结构
+  - 为管道的读端和写端创建两个`struct file`结构（`rf`和`wf`）
+  - 遍历当前进程的文件描述符表`p->ofile[]`，找到两个空闲的文件描述符编号`fd0`和`fd1`
+  - 将`rf`和`wf`分别分配给这两个文件描述符：
+    ```c
+    p->ofile[fd0] = rf;
+    p->ofile[fd1] = wf;
+    ```
+  - 使用`copyout()`函数将这两个文件描述符值复制到用户空间：
+    ```c
+    copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0));
+    copyout(p->pagetable, fdarray+sizeof(int), (char*)&fd1, sizeof(fd1));
+    ```
+  - 如果中间任何步骤失败，进行错误处理：关闭已打开的文件，清除已分配的文件描述符，返回错误码
+
+6. `sys_pipe()`函数成功完成，返回到系统调用处理程序
+7. 系统调用处理程序将控制权返回给用户程序
+
+##### 用户空间继续执行
+8. `pipe()`函数返回，此时`fd[0]`包含了管道读端的文件描述符，`fd[1]`包含了管道写端的文件描述符
+9. 用户程序可以使用这两个文件描述符进行读写操作：
+  - 对`fd[0]`执行`read()`操作可以从管道读取数据
+  - 对`fd[1]`执行`write()`操作可以向管道写入数据
 
 
 ## primes.c
