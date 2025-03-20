@@ -6,6 +6,9 @@ tags: [os]     # TAG names should always be lowercase
 ---
 ## sleep.c
 ---
+[梳理xv6系统调用的流程](https://zhuanlan.zhihu.com/p/693173080)
+xv6的所有系统调用的签名都定义在`user/user.h`中
+
 ### 1）
 **Look at some of the other programs in user/ (e.g., user/echo.c, user/grep.c, and user/rm.c) to see how you can obtain the command-line arguments passed to a program.**
 
