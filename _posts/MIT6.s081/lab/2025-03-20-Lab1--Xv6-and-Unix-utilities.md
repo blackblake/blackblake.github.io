@@ -6,9 +6,10 @@ tags: [os]     # TAG names should always be lowercase
 ---
 ## sleep.c
 ---
-[梳理xv6系统调用的流程](https://zhuanlan.zhihu.com/p/693173080)
-xv6的所有系统调用的签名都定义在`user/user.h`中
-![xv6中的系统调用签名](/assets/Image/systemcalls.png){: w="100" h"200" }
+### 一些资源
+1. [梳理xv6系统调用的流程](https://zhuanlan.zhihu.com/p/693173080)
+2. xv6的所有系统调用的签名都定义在`user/user.h`中
+3. ![xv6中的系统调用签名](/assets/Image/systemcalls.png){: w="100", h"200" }
 
 ### 1）
 **Look at some of the other programs in user/ (e.g., user/echo.c, user/grep.c, and user/rm.c) to see how you can obtain the command-line arguments passed to a program.**
@@ -216,7 +217,9 @@ sleep(&ticks, &tickslock);
 >3. 缓冲区buf的数据类型是`char`数组
 >4. 在父/子进程中先`close`掉不需要的读/写端，以防紊乱
 >5. 父进程和子进程都别忘了exit(0);
-
+>6. 注意`read(fd\[0],buf,n)`: 第一个参数绝对不可能是fd\[1]，而应总是fd\[0]！
+>7. 而`write(fd\[1],buf,n)`的第一个参数绝对是fd\[1]而不可能是fd\[0]，这就是“**0读1写**”
+>8. **读写方向**（很易混淆！): `read`是从管道的读端fd\[0]文件读取n个字节，并写入到buf数组中；`write`是把buf数组中的n个字节写到管道的写端fd\[1]文件中
 
 #### 2）等待子进程
 第一次试运行pingpong程序的时候，我发现输出混乱如下：
