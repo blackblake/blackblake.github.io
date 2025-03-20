@@ -237,7 +237,9 @@ else { printf("fork error\n"); exit(1); }
 
 ### 第二次的笔记
 
-##### 1）sys_pipe实现
+##### 1）记住fork()给子进程返回的是0，父进程是>0，fork失败是<0.
+
+##### 2）sys_pipe实现（错误处理代码一概省略了）
 ```c
 uint64
 sys_pipe(void)
@@ -247,29 +249,167 @@ sys_pipe(void)
   int fd0, fd1;
   struct proc *p = myproc();
 
+  //将我们定义的文件描述符数组int fd[2]与上面由内核定义的地址fdarray绑定起来
+  //用于把内核确定的文件描述符的值传递给fd数组
   if(argaddr(0, &fdarray) < 0)
     return -1;
+    
+  //创建、分配内存、初始化pi、rf、wf这3个结构体
   if(pipealloc(&rf, &wf) < 0)
     return -1;
   fd0 = -1;
   if((fd0 = fdalloc(rf)) < 0 || (fd1 = fdalloc(wf)) < 0){
-    if(fd0 >= 0)
-      p->ofile[fd0] = 0;
-    fileclose(rf);
-    fileclose(wf);
-    return -1;
+    ...
   }
+  
+  //把内核确定的文件描述符的值传递给fd数组
   if(copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0)) < 0 ||
      copyout(p->pagetable, fdarray+sizeof(fd0), (char *)&fd1, sizeof(fd1)) < 0){
-    p->ofile[fd0] = 0;
-    p->ofile[fd1] = 0;
-    fileclose(rf);
-    fileclose(wf);
-    return -1;
+    ...
   }
   return 0;
 }
 ```
+我们就这个系统调用的实现代码来分别解释一下其中主要的几个函数：
+###### 1. `argaddr(0, &fdarray);`
+这个函数和`sys_sleep`中的`argint`一样，都是从用户进程的trapframe读取寄存器的值，
+存储到&fdarray这个数组地址中，参数0表示从a0参数寄存器读取。
+
+###### 2. `pipealloc(&rf, &wf)`
+
+```c
+int
+pipealloc(struct file *f0, struct file *f1)
+{
+  struct pipe *pi;  //pi是一个pipe结构体(defined in pipe.c)
+
+  pi = 0;  //初始化
+  *f0 = *f1 = 0;
+  
+  // 为f0和f1分别分配一个file结构体的内存
+  if((*f0 = filealloc()) == 0 || (*f1 = filealloc()) == 0)
+    goto bad;
+  
+  // 为pi分配一个pipe结构体的内存
+  if((pi = (struct pipe*)kalloc()) == 0)  
+    goto bad;
+    
+  // 设置一下pipe结构体的各个参数(pipe结构体的定义在后面)
+  pi->readopen = 1;   //读文件打开
+  pi->writeopen = 1;  //写文件打开
+  pi->nwrite = 0;     //写入的bytes数
+  pi->nread = 0;      //读取的bytes数
+  initlock(&pi->lock, "pipe");
+  
+  //读端文件f0的属性设置 (file结构体的定义代码就不粘贴了,下面4行改动的都是file结构体的属性)
+  (*f0)->type = FD_PIPE;
+  (*f0)->readable = 1;  //f0 is readable(read port)
+  (*f0)->writable = 0;  //f0 is umwritable
+  (*f0)->pipe = pi;
+  
+  //写端文件f0的属性设置
+  (*f1)->type = FD_PIPE;  //f1 is writable but unreadable(write port)
+  (*f1)->readable = 0;
+  (*f1)->writable = 1;
+  (*f1)->pipe = pi;
+  
+  return 0;
+  ...  //下面的bad错误处理程序省略了
+```
+- 详细的解释见注释
+- 总之，`pipealloc()`函数的作用就是为创建并初始化一个pipe结构体pi，再为作为参数传入的两个file结构体f0和f1初始化，并为这3个结构体设置相应的读/写属性。
+
+###### 3. `struct pipe`
+
+```c
+struct pipe {
+  struct spinlock lock;
+  char data[PIPESIZE];
+  uint nread;     // number of bytes read
+  uint nwrite;    // number of bytes written
+  int readopen;   // read fd is still open
+  int writeopen;  // write fd is still open
+};
+```
+
+###### 4. `fd0 = fdalloc(rf))`
+```c
+// Allocate a file descriptor for the given file.
+// Takes over file reference from caller on success.
+static int
+fdalloc(struct file *f)
+{
+  int fd;
+  struct proc *p = myproc();
+  
+  //循环遍历进程的文件描述符表 (p->ofile)，从0开始到 NOFILE (文件描述符的最大数量)
+  for(fd = 0; fd < NOFILE; fd++){
+    if(p->ofile[fd] == 0){
+      p->ofile[fd] = f;
+      return fd;
+    }
+  }
+  return -1;
+}
+```
+- 要知道`ofile`和`NOFILE`是什么
+- `fdalloc()`的大致功能：在这个循环中，查找第一个未使用的文件描述符槽位(值为0的槽位)
+  - 当找到一个空闲槽位时:
+    - 将文件指针 f 存储在该槽位
+    - 返回该槽位的索引作为新的文件描述符
+  - 如果所有文件描述符都已使用，则返回 -1 表示失败
+
+###### 5. `copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0))`
+```c
+// Copy from kernel to user.
+// Copy len bytes from src to virtual address dstva in a given page table.
+// Return 0 on success, -1 on error.
+int
+copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len)
+{
+  uint64 n, va0, pa0;
+
+  while(len > 0){
+    va0 = PGROUNDDOWN(dstva);
+    pa0 = walkaddr(pagetable, va0);
+    if(pa0 == 0)
+      return -1;
+    n = PGSIZE - (dstva - va0);
+    if(n > len)
+      n = len;
+    memmove((void *)(pa0 + (dstva - va0)), src, n);
+
+    len -= n;
+    src += n;
+    dstva = va0 + PGSIZE;
+  }
+  return 0;
+}
+```
+1. 这个`copyout`函数实现的功能是：把内核空间的大小为len的变量`src`的值复制到用户空间的变量`dstva`上（具体实现代码等到做完lab3再回头看一下）
+2. 在`sys_pipe`中，调用这个函数达到了“把内核空间所定义的`fd0`和`fd1`这两个文件描述符的值，复制传递给了用户进程中的`fdarray`这个数组(`fdarray`是我们所定义的int fd\[2]这个数组在用户地址空间中的内存地址)”的功能
+
+###### 6. `sys_pipe`总结
+
+现在，我们可以总结sys_pipe这个系统调用的过程：
+  - 我在用户进程中定义一个int fd\[2]，但没有初始化它的元素是什么，因为文件描述符不是我可以指定的值，而是内核决定的（通过遍历当前进程的ofile来找到可分配的文件描述符）。
+  - 然后在sys_pipe中，把内核所确定的两个文件描述符fd0、fd1从内核空间复制到用户空间的fdarray数组中
+  - 那么我定义的`int fd\[2]`和用户空间的`fdarray`是怎么“等价到一起的”？
+    - 其实，后者就是前者在用户地址空间中的内存地址，通过`argaddr(0, &fdarray)`绑定(fd就是我们的用户进程向内核空间传入的参数，存放在a0寄存器中)
+
+##### 3）pipe()系统调用的函数原型
+```c
+int pipe(int* fd[2]); //fd是一个包含两个int整数的数组
+```
+
+参数：
+  - fildes[0] 是管道的读取端（读端）文件描述符
+  - fildes[1] 是管道的写入端（写端）文件描述符
+
+返回值：
+  - 当 pipe() 调用成功时，它返回 0。
+  - 如果调用失败，则返回 -1，并设置相应的 errno 值表明失败原因。
+
 
 
 
