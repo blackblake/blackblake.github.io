@@ -6,6 +6,6 @@ tags: [web]     # TAG names should always be lowercase
 ---
 1. ##### Jekyll插入图片的语法：
 ```md
-![description](/assets/Image/image_name){: w="..." h"..." }
+![description](/assets/Image/image_name){: w="...", h"..." }
 ```
 可以在webstorm的md文件预览器上看一下是否能显示
