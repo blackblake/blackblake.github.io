@@ -1,7 +1,7 @@
 ---
 title: "lab2 syscall"
 date: 2025-03-20 03:39:16 +0800
-categories: [MIT6.S081, Lab]
+categories: [MIT6.S081, os_Lab]
 tags: [os]     # TAG names should always be lowercase
 ---
 ## Lab2A trace
