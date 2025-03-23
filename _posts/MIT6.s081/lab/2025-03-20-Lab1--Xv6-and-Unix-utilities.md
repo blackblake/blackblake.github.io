@@ -744,10 +744,6 @@ int readline(char *new_argv[32], int curr_argc) {
     
     // 从标准输入逐字符读取一行
     while(read(0, buf+n, 1)) {
-        if (n == 1023) {//如果输入的命令超过了1023个字符
-            fprintf(2, "argument is too long\n");
-            exit(1);
-        }
         if (buf[n] == '\n') {//遇到换行符,即已至行尾,停止读取
             break;
         }
