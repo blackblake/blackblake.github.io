@@ -631,6 +631,7 @@ void read_directory(char *path) {
 - `inum`：目录条目(`de`)中的信息之一，表示"inode number"，是标识文件的唯一数字ID
 	inode号为0通常表示未使用的目录条目
 	多个目录条目可以指向同一个inode号（硬链接）
+- `T_DIR, T_FILE`: 在 xv6 中，这些文件类型常量是在内核代码中预先定义的，通常在文件系统相关的头文件中（如 fs.h）。内核在创建文件或目录时会设置它们的类型。
 
 ##### 2）`find.c`相比于`ls.c`修改的地方
 
@@ -797,6 +798,7 @@ int readline(char *new_argv[32], int curr_argc) {
 
 循环结束，**new_argv数组现在包含三个参数的指针，分别指向buf中的"hello"、"world"和"example"三个null终止的字符串**。
 
+>值得关注的是`buf+n`这种`数组名+偏移量`的形式，**因为`write/read`的第二个参数\(缓冲区)必须是一个地址**（只传入一个buf作为第二个参数也是作为地址传入，第三个参数指定了往这个地址写入/读取多少个字节）
 
 #### main 函数
 
