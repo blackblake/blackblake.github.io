@@ -1,5 +1,5 @@
 ---
-title: "lab2 syscall"
+title: "lab2 syscall (first time)"
 date: 2025-03-20 03:39:16 +0800
 categories: [MIT6.S081, os_Lab]
 tags: [os]     # TAG names should always be lowercase
@@ -9,7 +9,8 @@ tags: [os]     # TAG names should always be lowercase
 实现一个叫trace的系统调用，在user/trace.c中有使用trace的源码，而我们的目的就是让这一段用户代码能够跑通，输出我们希望打印的系统调用函数的结果。
 
 trace接受一个整数参数trace_mask，通过二进制位的标记来输出系统调用的结果。例如trace 32，表示输出read函数的调用结果
-### step1
+
+step1
 ---
 在`kernel/sysproc.c`中实现sys_trace系统调用
 
@@ -80,7 +81,7 @@ syscall(void)
 }
 ```
 
-### 三个步骤之间的联系
+三个步骤之间的联系
 ---
 这三个步骤形成了完整的工作流程：
 
@@ -152,7 +153,7 @@ nproc(void)
 }
 ```
 
-### step3
+step3
 ---
 在`kernel/sysproc.c`中添加系统调用入口: `sys_sysinfo()`函数是`sysinfo`系统调用的实现。
 
@@ -195,7 +196,7 @@ sys_sysinfo(void)
 ```
 
 
-## 补充知识
+补充知识
 ---
 1. **xv6 kernel source files**![[截屏2025-03-14 15.08.48.png|500]]
 2. `kernrl/sysproc.c`这个文件中是与进程相关的系统调用的**实现**，如`sys_exit()`,`sys_trace` and `sys_fork()`...
