@@ -1,59 +1,98 @@
 ---
 title: "lab3 pgtbl"
-date: 2025-03-20 03:39:16 +0800
+date: 2025-03-26 03:39:16 +0800
 categories: [MIT6.S081, os_Lab]
 tags: [os]     # TAG names should always be lowercase
 ---
-### 环境
-1. 启动`qemu`和`gdb`: `make CPUS=1 qemu-gdb`，当前的这个终端窗口我们暂且称呼其为窗口1
-2. 打开另一个终端窗口2，还是在xv6-labs-2021目录下，执行`gdb kernel/kernel`
-3. 在gdb中输入`tui enable`可以进入源代码展示窗口，可以用`先按下Ctrl+x，然后按下Ctrl+a`来退出
-4. 如果您想完全退出GDB程序：在GDB提示符下输入 `quit` 或简写 `q
-5. 还记得窗口1吗？`vmprint`函数会在这个窗口进行输出，因为这个窗口1显示的是**QEMU的控制台输出**
-	 ![[Pasted image 20250317143335.png|500]]
-	 我们来看一下这里的输出。第一行是最高一级page directory的地址，这就是存在SATP或者将会存在SATP中的地址。第二行可以看到最高一级page directory只有一条PTE序号为0，它包含了中间级page directory的物理地址。第三行可以看到中间级的page directory只有一条PTE序号为128，它指向了最低级page directory的物理地址。第四行可以看到最低级的page directory包含了PTE指向物理地址。你们可以看到最低一级 page directory中PTE的物理地址就是0x10000000，对应了UART0（因为到此为止程序只执行了一条kvmmap语句`kvmmap(UART0, UART0, PGSIZE, PTE_R | PTE_W);`）
 
-### 用户进程的内存分布
+Print a page table
 ---
+---
+在这一节我们需要实现一个`vmprint()`函数用于打印页表，它接受一个`pagetable_t`类型的参数，我们先来看一下`pagetable_t`是什么
+
+### 1）pagetable_t
+在`riscv.h`中发现其定义：
 ```c
-// User memory layout.
-// Address zero first:
-//   text
-//   original data and bss
-//   fixed-size stack
-//   expandable heap
-//   ...
-//   USYSCALL (shared with kernel)
-//   TRAPFRAME (p->trapframe, used by the trampoline)
-//   TRAMPOLINE (the same page as in the kernel)
+typedef uint64 *pagetable_t; // 512 PTEs
 ```
 
-`memlayou.h`中的这段代码注释描述了用户程序在内存中的布局结构。在大多数操作系统中，每个进程都有自己的独立虚拟地址空间，这段注释解释了这个地址空间是如何组织的。从低地址到高地址依次是：
+- 这说明它是指向页表的指针，而页表本身是一个由 uint64（64 位无符号整数）组成的数组
+- 在xv6中，每个页表包含 2^9 = 512 个页表项（PTE），因此注释中注明 `// 512 PTEs`
+- 所以我们的这个`vmprint`函数接受一个页表作为参数
 
-1. **text（代码段）**: 存放程序的可执行代码。这是程序中的指令部分。
-    
-2. **original data and bss（数据段和未初始化数据段）**:
-    
-    - data: 存放已初始化的全局变量和静态变量
-    - bss: 存放未初始化的全局变量和静态变量（系统会将它们初始化为0）
-3. **fixed-size stack（固定大小的栈）**: 用于函数调用，存放局部变量、函数参数、返回地址等。栈通常从高地址向低地址增长。
-    
-4. **expandable heap（可扩展的堆）**: 用于动态内存分配（如malloc/free调用），可以根据需要扩展。堆通常从低地址向高地址增长。
-    
-5. **USYSCALL**: 这是一个与内核共享的区域，可能用于进程与内核之间的快速系统调用通信，减少上下文切换开销。
-    
-6. **TRAPFRAME**: 这个区域存储进程的陷阱帧（trapframe），当发生系统调用、中断或异常时，用来保存进程的状态（寄存器值等）。注释中提到它通过`p->trapframe`访问，这表明它是进程结构体中的一个字段。
-    
-7. **TRAMPOLINE**: 这是一个与内核共享同一页面的区域，用于实现用户空间和内核空间之间的安全切换。它包含从用户模式切换到内核模式的代码。
+### 2）`freewalk`
 
-### `mappage()`
----
-`mappages()` 函数可以将虚拟地址范围 `[va, va + size)` 映射到物理地址范围 `[pa, pa + size)`，并设置相应的访问权限。
+文档中提示我们可以参考这个函数：
+```c
+// 递归地释放页表中的页
+// 此函数正常运行的前提——所有叶子结点都已被移除
+void
+freewalk(pagetable_t pagetable)
+{
+  // 遍历当前页表中的所有 512 个页表项 (PTE)
+  for(int i = 0; i < 512; i++){
+    pte_t pte = pagetable[i];  // 获取第 i 个页表项
+    
+    // 检查 PTE 是否有效（PTE_V）且不是叶子节点（非 R/W/X）
+    if((pte & PTE_V) && (pte & (PTE_R|PTE_W|PTE_X)) == 0){
+      // 这个 PTE 指向一个更低层级的页表（非叶子）
+      uint64 child = PTE2PA(pte);     // 从 PTE 中提取子页表的物理地址
+      freewalk((pagetable_t)child);   // 递归释放子页表
+      pagetable[i] = 0;               // 清零当前 PTE
+    } 
+    
+    // 如果 PTE 有效且是叶子节点（R/W/X 至少一个被设置）
+    else if(pte & PTE_V){
+      panic("freewalk: leaf"); // 叶子映射应已被移除（这是freewalk函数正常运行的前提），否则报错
+    }
+    
+    // 如果 PTE 无效（PTE_V = 0），则直接跳过
+  }
+  
+  // 释放当前页表占用的物理页
+  kfree((void*)pagetable);
+}
+```
+1. `pte_t`：一个宏，和`pagetable_t`一起被定义在`riscv.h`的末尾
+2. `pagetable[i]`：
+3. `PTE2PA(pte)`：通过 PTE2PA 宏将 PTE 转换为物理地址
 
-`mappages()` 函数有五个参数，分别为
 
-- `pagetable_t pagetable`：表示页表的指针，用于指定将要修改的页表。
-- `uint64 va`：虚拟地址的起始地址。
-- `uint64 size`：需要映射的虚拟地址范围的大小。
-- `uint64 pa`：物理地址的起始地址。
-- `int perm`：权限标志，用于设置 PTE 的权限。
+### 3）叶子结点
+
+解释一下`freewalk`函数中的“叶子结点”的概念：
+
+在 多级页表结构（如 xv6 的三级页表）中：
+
+1. 非叶子节点：
+页表项（PTE）指向 下一级页表（例如顶级页表的 PTE 指向中间页表）。
+   - 特征：PTE 的 PTE_V 位为 1，但 PTE_R/PTE_W/PTE_X（可读/可写/可执行）权限位均为 0。
+   - 作用：仅用于索引下一级页表，不直接映射物理页。
+
+2. 叶子节点：
+页表项（PTE）直接指向 物理页帧（即最终的数据页或代码页）。
+   - 特征：PTE 的 PTE_V 位为 1，且至少有一个权限位（PTE_R/PTE_W/PTE_X）为 1。
+   - 作用：完成虚拟地址到物理地址的最终映射。
+
+### 4）`vmprint()`实现
+
+```c
+void 
+vmprint(pagetable_t pagetable, uint dep){
+  if(dep == 0)
+    printf("page table %p\n", pagetable);
+  for(int i = 0; i < 512; i++){
+    pte_t pte = pagetable[i];
+    if(pte & PTE_V){
+      for(int j = 0; j < dep; j++)
+        printf(".. ");
+      uint64 child = PTE2PA(pte);
+      printf("..%d: pte %p pa %p\n", i, pte, child);
+      if(dep < 2)
+        // 如果层数等于 2 就不需要继续递归了，因为这是叶子节点
+        vmprint((pagetable_t) child, dep + 1);
+    }
+  } 
+}
+```
+
