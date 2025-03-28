@@ -346,4 +346,41 @@ for(int i = 0; i < ck_siz; i++){
 >
 > 如果 fir_pte 指向一个 连续的 PTE 数组，那么 `fir_pte[i]` 就是第 i 个 PTE
 
+6. 整体概览
+```c
+int
+sys_pgaccess(void)
+{
+  pagetable_t u_pt = myproc()->pagetable;
+
+  //读取位于用户态的函数int pgaccess(void *base, int len, void *mask)的三个参数
+  uint64 fir_addr, mask_addr;
+  int ck_siz; 
+  uint mask = 0;
+  argaddr(0, &fir_addr);
+  argint(1, &ck_siz);
+  argaddr(2, &mask_addr);
+
+  if(ck_siz > 32){
+    return -1;
+  }
+
+  //用walk函数找到第一个参数指向的pte并返回给fir_pte存储
+  pte_t* fir_pte = walk(u_pt, fir_addr, 0);
+
+  //主循环
+  for(int i = 0; i < ck_siz; i++){
+      if((fir_pte[i] & PTE_A) && (fir_pte[i] & PTE_V)){
+          mask |= (1 << i);
+          fir_pte[i] ^= PTE_A; // 复位
+      }
+  }
+  
+  //将最后得到的掩码值结果传递给用户态的pgaccess()函数
+  copyout(u_pt, mask_addr, (char*)&mask, sizeof(uint));
+
+  return 0;
+}
+```
+
 ![completement](/assets/Image/pgaccess.png){: w="300", h"200" }
