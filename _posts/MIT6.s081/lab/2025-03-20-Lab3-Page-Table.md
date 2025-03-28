@@ -298,3 +298,43 @@ vmprint(pagetable_t pagetable, uint dep){
 }
 ```
 
+Access
+---
+---
+[第三个题目在这篇blog里讲的很清楚](https://ttzytt.com/2022/07/xv6_lab3_record/index.html#post-comment)
+
+这里只提挈几个细节：
+
+1. `pgaccess()`函数的三个参数怎么传入给内核态检测页表使用？
+2. 最后得到的掩码值如何返回给`pgaccess()`函数？
+
+
+3. `walk`函数：对于一个给定的页表和虚拟地址，walk() 函数会返回对应这个虚拟地址的叶子 **PTE**
+
+
+4. 主循环：
+```c
+for(int i = 0; i < ck_siz; i++){
+    if((fir_pte[i] & PTE_A) && (fir_pte[i] & PTE_V)){
+        mask |= (1 << i);  //由第0位开始，每次向更高的一位写入
+        fir_pte[i] ^= PTE_A; // 复位
+    }
+}
+```
+- `if((fir_pte[i] & PTE_A) && (fir_pte[i] & PTE_V))`
+  - fir_pte[i] & PTE_A：检查当前 PTE 的 访问位（PTE_A） 是否被置 1（即该页是否被访问过）。
+  - fir_pte[i] & PTE_V：检查当前 PTE 的 有效位（PTE_V） 是否被置 1（即该页是否有效）。
+  - 只有 两个条件同时满足（页有效且被访问过），才会进入 if 块。
+
+- mask |= (1 << i);
+  - 1 << i：生成一个只有第 i 位为 1 的掩码（例如 i=2 → 0b100）。
+  - mask |= ...：将 mask 的第 i 位置 1，表示第 i 个 PTE 满足条件（被访问过且有效）。
+    - 作用：最终 mask 是一个位掩码，每一位 i 表示 fir_pte[i] 是否被访问过。
+  - fir_pte[i] ^= PTE_A;
+
+
+- PTE_A 是访问位（例如 0x40，即 1 << 6）。
+  - ^=（异或赋值）：翻转 PTE_A 位。
+  - 如果 PTE_A 原本是 1，异或后变为 0（复位访问位）。
+  - 如果 PTE_A 原本是 0，异或后变为 1（但这里不会发生，因为前面已经检查 PTE_A 为 1）。
+  - 作用：清除访问位，表示该页的访问状态已被处理。
