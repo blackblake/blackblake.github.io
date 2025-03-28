@@ -345,3 +345,5 @@ for(int i = 0; i < ck_siz; i++){
 >通过 `fir_pte[i]`遍历第i个页表项pte（fir_pte是第一个要遍历的pte，一般由 walk 函数返回）
 >
 > 如果 fir_pte 指向一个 连续的 PTE 数组，那么 `fir_pte[i]` 就是第 i 个 PTE
+
+![completement](/assets/Image/pgaccess.png){: w="300", h"200" }
