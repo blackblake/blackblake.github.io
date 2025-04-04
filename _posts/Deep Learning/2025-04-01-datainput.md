@@ -9,6 +9,8 @@ tags: [dl]     # TAG names should always be lowercase
 ---
 ---
 
+### 1）创建数据集
+
 首先创建一个人工数据集，并存储在CSV（逗号分隔值）文件 ../data/house_tiny.csv中。 以其他格式存储的数据也可以通过类似的方式进行处理。
 ```python
 # 导入 os 模块，用于处理文件和目录路径
@@ -38,10 +40,19 @@ f.write('NumRooms,Alley,Price\n')  # 列名：房间数量, 小巷类型, 价格
 # 文件会在 with 块结束后自动关闭
 ```
 
+### 2）读入数据集
 要从创建的CSV文件中加载原始数据集，我们导入pandas包并调用read_csv函数
 ```python
 import pandas as pd
 
 data = pd.read_csv(data_file)
 print(data)
+```
+
+### 3）处理缺失值
+```python
+# ":" 表示选择所有行, "0:2" 表示选择第 0 列到第 1 列
+inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2]
+
+inputs = inputs.fillna(inputs.mean()) # mean函数用于求平均值
 ```
