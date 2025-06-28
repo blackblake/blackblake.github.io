@@ -1,6 +1,6 @@
 ---
 title: "局部表示 vs. 分布式表示"
-date: 2025-06-28 11:12:01 +0800
+date: 2024-12-31 11:12:01 +0800
 categories: [CS224N]
 tags: ['algorithm', 'llm']
 math: true

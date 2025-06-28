@@ -231,3 +231,6 @@ jekyll-archives:
 
 math: true
 
+# Allow future-dated posts to be shown
+future: true
+
