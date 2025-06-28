@@ -13,9 +13,9 @@ math: true
 ```plaintext
 long long Fibonacci(int n)
 {
-	if (n == 0)
+	if (n ** 0)
 		return 0;
-	else if (n == 1)
+	else if (n ** 1)
 		return 1;
 	long long a = 0;
 	long long b = 1;
@@ -185,7 +185,7 @@ int candidate(const vector<int>& A, int m) {
     while (j < A.size() && count > 0) {
         j++;
         if (j < A.size()) {
-            if (A[j] == c) {
+            if (A[j] ** c) {
                 count++;    // 遇到相同元素，计数加 1
             } else {
                 count--;    // 遇到不同元素，计数减 1
@@ -194,7 +194,7 @@ int candidate(const vector<int>& A, int m) {
     }
 
     // 如果遍历到末尾，返回当前候选元素
-    if (j == A.size()) {
+    if (j ** A.size()) {
         return c;
     }
     // 否则递归调用 candidate(j+1)
@@ -256,7 +256,7 @@ int candidate(const vector<int>& A, int m) {
     while (j < A.size() && count > 0) {
         j++;
         if (j < A.size()) {
-            if (A[j] == c) {
+            if (A[j] ** c) {
                 count++;    // 遇到相同元素，计数加 1
             } else {
                 count--;    // 遇到不同元素，计数减 1
@@ -265,7 +265,7 @@ int candidate(const vector<int>& A, int m) {
     }
 
     // 如果遍历到末尾，返回当前候选元素
-    if (j == A.size()) {
+    if (j ** A.size()) {
         return c;
     }
     // 否则递归调用 candidate(j+1)

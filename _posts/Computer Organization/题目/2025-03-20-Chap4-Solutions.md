@@ -13,7 +13,7 @@ and rd, rs1, rs2
 **4.1.1　对于上述指令，图4-10中的控制信号各是什么数值？**
 ![Pasted image 20241024204005](/assets/Image/Pasted image 20241024204005.png){: w="500"}
 
-###### ==**在控制信号(control signals)中，值的表示方法如下：**==
+###### ****在控制信号(control signals)中，值的表示方法如下：****
 - 对于ALUop：如果不记得00, 01, 10对应什么运算，可以直接写[and], [or], 
 [add],[ sub]；
 	
@@ -23,11 +23,11 @@ and rd, rs1, rs2
 
 **4.1.2　对于上述指令，将用到哪些功能单元？**
 Registers, ALUsrc mux, ALU, and the MemToReg mux.
-###### ==**`mux`也是功能单元，不要忽略**==
+###### ****`mux`也是功能单元，不要忽略****
 
 **4.1.3　对于上述指令，哪些功能单元不产生任何输出？哪些功能单元的输出不会被用到？**
 所有块都会产生一些输出，但不使用datammemory和ImmGen的输出。
-###### ==无论什么指令类型，所有的功能单元都会产生输出==，只不过如果没用到的unit若没有输入，就会输出默认值
+###### **无论什么指令类型，所有的功能单元都会产生输出**，只不过如果没用到的unit若没有输入，就会输出默认值
 
 
 
@@ -41,7 +41,7 @@ Registers, ALUsrc mux, ALU, and the MemToReg mux.
 **100%. Every instruction must be fetched from instruction memory before it can be executed.**
 
 4.3.3　使用符号扩展的指令所占比例？
-**28 + 25 + 10 + 11 + 2 = 76%. ==只有 R-type 不使用符号扩展==**
+**28 + 25 + 10 + 11 + 2 = 76%. **只有 R-type 不使用符号扩展****
 
 4.3.4　当不需要符号扩展的结果时，符号扩展单元的行为是什么？
 **The sign extend produces an output during every cycle. If its output is not needed, it is simply ignored.**
@@ -55,7 +55,7 @@ Only loads are broken. MemToReg is either 1 or “don’t care” for all other 
 
 **4.4.2　如果ALUSrc信号发生以上故障，哪些指令会执行错误？**
 I-type, loads , stores are all broken.
-==B和J型的PC地址计算用的是Add加法器，不是用ALU，所以不会被影响！==
+**B和J型的PC地址计算用的是Add加法器，不是用ALU，所以不会被影响！**
 
 ### 4.5
 ---
@@ -96,10 +96,10 @@ Branch: Inputs: PC+4 and 0x000000000000000A
 No additional logic blocks are needed.
 
 **4.6.2　为addi指令列出控制单元产生的信号值。**
-Branch: false（**==除了mux的0和1之外的控制信号都用false和true==来表示是否有效，因为不一定低电平有效还是高电平有效**）
+Branch: false（****除了mux的0和1之外的控制信号都用false和true**来表示是否有效，因为不一定低电平有效还是高电平有效**）
 MemRead: false
 MemToReg: 0
-**ALUop: 10 (or simply saying “==add==” is suffi cient for this problem)**
+**ALUop: 10 (or simply saying “**add**” is suffi cient for this problem)**
 MemWrite: false
 ALUsrc: 1
 RegWrite: 1
@@ -136,7 +136,7 @@ I-type : 30 + 250 + 150 + 25 + 200 + 25 + 20 = 700ps
 ![Pasted image 20241024214754](/assets/Image/Pasted image 20241024214754.png){: w="500"}
 
 Using the results from Problem 4.7, we see that the average time per
-instruction is **0.52\*700 + 0.25\*950 +0.11\*905 + 0.12\* 705 = 785.6ps（==加权平均，求这种比例分配所导致的平均的指令执行时间==）**
+instruction is **0.52\*700 + 0.25\*950 +0.11\*905 + 0.12\* 705 = 785.6ps（**加权平均，求这种比例分配所导致的平均的指令执行时间**）**
 
 In contrast, a single-cycle CPU with a “normal” clock would require a
 clock cycle time of 950.
@@ -211,7 +211,7 @@ require control wires for the selector.
 ### 4.20
 ---
 ![Pasted image 20250110073539](/assets/Image/Pasted image 20250110073539.png){: w="200"}
-==addi-add属于WB型数据冒险，所以需要stall２个周期，即插入２条NOP==
+**addi-add属于WB型数据冒险，所以需要stall２个周期，即插入２条NOP**
 （MEM型则只需stall一个周期）
 
 
@@ -222,14 +222,14 @@ require control wires for the selector.
 
 ![Pasted image 20250110074629](/assets/Image/Pasted image 20250110074629.png){: w="500"}
 
-- ==“流水线图”不是数据通路图！要知道画什么==
-- **sub-bez是==WB==型（因为要等到sub把值写回x17才能用），所以要插入==2个气泡==！**
-- **不可能通过NOP来解决==结构==冒险**
+- **“流水线图”不是数据通路图！要知道画什么**
+- **sub-bez是**WB**型（因为要等到sub把值写回x17才能用），所以要插入**2个气泡**！**
+- **不可能通过NOP来解决**结构**冒险**
 
 ### 4.27
 ---
 ![Pasted image 20250110080141](/assets/Image/Pasted image 20250110080141.png){: w="200"}
-- 不要忽略掉这种==“隔行的冒险”==！
+- 不要忽略掉这种**“隔行的冒险”**！
 - add-ld和or-sd都属于WB型冒险，所以插入2个nop
 - ld-or是 读取ld所加载的寄存器 引发的冒险，所以要停顿2个周期，因为是“隔行”的所以再插入1个就可以了
 
@@ -237,7 +237,7 @@ require control wires for the selector.
 
 ![Pasted image 20250110081545](/assets/Image/Pasted image 20250110081545.png){: w="600"}
 
-==Forward信号：WB型是01，MEM型是10==
+**Forward信号：WB型是01，MEM型是10**
 
 
 ### 4.28
@@ -245,7 +245,7 @@ require control wires for the selector.
 ![Pasted image 20250110082750](/assets/Image/Pasted image 20250110082750.png){: w="600"}
 ![Pasted image 20250110082813](/assets/Image/Pasted image 20250110082813.png){: w="600"}
 
-4.28.1  ==**失败率×branch指令占比×3**==
+4.28.1  ****失败率×branch指令占比×3****
   + CPI将变为：1+(1-0.55)(0.25)3 = 1.4125
   + 解释：1-0.55是如此预测的话预测错误的比例，0.25是Branch指令占指令总数的比例，3是因为每条预测错误的branch指令都会导致后续的3条（处于IF,ID,EX级的）指令被废弃。
 4.28.2

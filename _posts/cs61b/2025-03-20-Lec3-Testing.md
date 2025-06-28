@@ -4,7 +4,7 @@ date: 2025-03-20 03:39:16 +0800
 categories: [cs61b, 61b_lec]
 tags: [cs61b]     # TAG names should always be lowercase
 ---
-==这一讲是重点，多看几遍slides==
+**这一讲是重点，多看几遍slides**
 ## Junit
 ---
 JUnit 输出的信息有点难看，手动调用每个测试也很烦人

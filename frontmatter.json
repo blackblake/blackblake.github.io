@@ -55,14 +55,12 @@
       "path": "[[workspace]]/_posts"
     },
     {
-      "path": "[[workspace]]/_tabs"
+      "path": "[[workspace]]/_tabs",
+      "title": "_tabs"
     },
     {
-      "path": "[[workspace]]/_posts/cs61b"
-    },
-    {
-      "title": "frontmattereg",
-      "path": "[[workspace]]/_posts/Probability Theory and Mathematical Statistics"
+      "path": "[[workspace]]/_posts/cs61b",
+      "title": "cs61b"
     }
   ],
   "frontMatter.git.enabled": true

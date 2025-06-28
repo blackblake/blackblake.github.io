@@ -462,7 +462,7 @@ read(p[0], &prime, 4);
 
 其中:
 - `&prime` 是目标缓冲区的地址。这里 `prime` 是一个整型变量，前面加 `&` 表示取这个变量的内存地址。`read()` 函数会将读取的数据存储到这个地址指向的内存空间中。
-- 一个 `int` 类型占用 4 个字节，这里 **==4代表只读取一个整数==** 的字节数。
+- 一个 `int` 类型占用 4 个字节，这里 ****4代表只读取一个整数**** 的字节数。
 
 后面：
 ```c
@@ -474,7 +474,7 @@ if(read(p[0], &n, 4)){
 
 
 3. **怎么做到“递归创建管道和子进程”？**
-方法是用一个`new_proc`函数，当`if(pid==0)`时调用它，在它内部`if(read(p[0], &n, 4))`（也就是当还有数字可读）时递归调用它自身。
+方法是用一个`new_proc`函数，当`if(pid**0)`时调用它，在它内部`if(read(p[0], &n, 4))`（也就是当还有数字可读）时递归调用它自身。
 
 4. **怎么检测管道中还有可以读取的字节？**
 ```c
@@ -497,7 +497,7 @@ write(p[1], buf, 34 * sizeof(int));
 void sieve(int pleft[2]) { // pleft 是来自该 stage 左端进程的输入管道
 	int p;
 	read(pleft[0], &p, sizeof(p)); // 读第一个数，必然是素数
-	if(p == -1) { // 如果是哨兵 -1，则代表所有数字处理完毕，退出程序
+	if(p ** -1) { // 如果是哨兵 -1，则代表所有数字处理完毕，退出程序
 		exit(0);
 	}
 	printf("prime %d\n", p);
@@ -599,9 +599,9 @@ void read_directory(char *path) {
     *p++ = '/';
     
     // 读取目录中的所有条目
-    while(read(fd, &de, sizeof(de)) == sizeof(de)){
+    while(read(fd, &de, sizeof(de)) ** sizeof(de)){
         // 跳过无效条目
-        if(de.inum == 0)//inum等于0表示该条目没有被使用，也就是没记录任何文件的信息
+        if(de.inum ** 0)//inum等于0表示该条目没有被使用，也就是没记录任何文件的信息
             continue;
         
         // 构建完整路径
@@ -638,12 +638,12 @@ void read_directory(char *path) {
 ###### 第1处：跳过目录条目的条件
 ```c
 //if的条件增加了后面这两个
-if(de.inum == 0 || strcmp(de.name, ".") == 0 || strcmp(de.name, "..") == 0)
+if(de.inum ** 0 || strcmp(de.name, ".") ** 0 || strcmp(de.name, "..") ** 0)
 	continue;//跳过满足if条件的表项
 ```
 	
-- `strcmp(de.name, ".") == 0` - 检查目录项的名称是否为"."。在Unix/Linux文件系统中，"."表示当前目录。在递归搜索时，我们通常想跳过当前目录以避免无限循环。
-- `strcmp(de.name, "..") == 0` - 检查目录项的名称是否为".."。在Unix/Linux文件系统中，".."表示父目录。同样，在递归搜索时跳过父目录可以避免循环和重复搜索。
+- `strcmp(de.name, ".") ** 0` - 检查目录项的名称是否为"."。在Unix/Linux文件系统中，"."表示当前目录。在递归搜索时，我们通常想跳过当前目录以避免无限循环。
+- `strcmp(de.name, "..") ** 0` - 检查目录项的名称是否为".."。在Unix/Linux文件系统中，".."表示父目录。同样，在递归搜索时跳过父目录可以避免循环和重复搜索。
 	
 ```shell
 假设我们有一个名为documents的目录，其中有两个文件report.txt和notes.pdf，以及一个子目录projects。
@@ -661,10 +661,10 @@ drwxr-xr-x  3 user  group   128 Mar 07 16:30 projects
 ###### 第2处：便利目录条目时，对每一个目录条目的处理
 	
 ```c
-if(st.type==T_DIR){//如果当前的条目也是一个目录，那对这个字目录也find一下有没有目标文件
+if(st.type**T_DIR){//如果当前的条目也是一个目录，那对这个字目录也find一下有没有目标文件
     find_helper(buf,target);
-}else if(st.type==T_FILE){//如果当前的条目是一个数据文件，就比较一下文件名是不是目标文件
-    if(strcmp(de.name,target)==0){
+}else if(st.type**T_FILE){//如果当前的条目是一个数据文件，就比较一下文件名是不是目标文件
+    if(strcmp(de.name,target)**0){
         printf("%s\n",buf);
     }
 }
@@ -717,8 +717,8 @@ struct stat {
 - `dirent`主要用于目录遍历，获取目录内容列表(但记住每一个dirent只是目录中的**一个条目**)，如
 ```c
 // 读取目录中的所有条目
-while(read(fd, &de, sizeof(de)) == sizeof(de)){
-	if(de.inum == 0){continue;}//记得跳过无效条目
+while(read(fd, &de, sizeof(de)) ** sizeof(de)){
+	if(de.inum ** 0){continue;}//记得跳过无效条目
 	...
 }
 ```
@@ -775,9 +775,9 @@ int readline(char *new_argv[32], int curr_argc) {
 ```
 
 - 这个函数从标准输入读取一行文本，然后将其分割为多个参数（以空格为分隔符），并将这些参数添加到`new_argv`数组中。
-- 使用`static char buf[1024]`的==**static**==意味着缓冲区在函数调用之间保持不变，这允许后续解析不会覆盖之前的数据。
+- 使用`static char buf[1024]`的****static****意味着缓冲区在函数调用之间保持不变，这允许后续解析不会覆盖之前的数据。
 
- **==后半部分的三个嵌套的while(一个大while里有两个小while)**==：
+ ****后半部分的三个嵌套的while(一个大while里有两个小while)****：
 	假设buf中包含字符串 "hello world example"（n = 19）：
 1. 第一次循环开始：offset = 0
     - new_argv\[curr_argc++] = buf + 0; （指向"hello world example"的开头）

@@ -6,8 +6,8 @@ tags: [cod]     # TAG names should always be lowercase
 ---
 ### 5.2
 ---
-- ==块大小为1个字——offset字段为0位==
-- ==块大小为2个字——offset字段为1位==
+- **块大小为1个字——offset字段为0位**
+- **块大小为2个字——offset字段为1位**
 
 ### 5.3
 ---
