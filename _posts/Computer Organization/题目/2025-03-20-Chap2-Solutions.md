@@ -1,10 +1,10 @@
 ---
 title: "chap2_solutions"
 date: 2025-03-20 03:39:16 +0800
-categories: [cod, solutions]
-tags: [cod]     # TAG names should always be lowercase
+categories: [题目]
 math: true
 ---
+
 ### 2.1
 ---
 没有`subi`这条指令！用`addi`代替！

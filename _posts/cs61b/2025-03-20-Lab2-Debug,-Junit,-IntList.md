@@ -1,9 +1,10 @@
 ---
 title: "lab2"
 date: 2025-03-20 03:39:16 +0800
-categories: [cs61b, 61b_lab]
-tags: [cs61b]     # TAG names should always be lowercase
+categories: [cs61b]
+tags: ['ml', 'java']
 ---
+
 [Debugging-guide](https://sp21.datastructur.es/materials/guides/debugging-guide.html)
 
 ## Debug 

@@ -1,8 +1,8 @@
 ---
 title: "Chap5 归纳法"
 date: 2025-04-05 03:39:16 +0800
-categories: [Algorithm Design, Solutions]
-tags: [solution]     # TAG names should always be lowercase
+categories: [Solution]
+tags: ['algorithm']
 math: true
 ---
 

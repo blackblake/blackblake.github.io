@@ -2,7 +2,7 @@
 title: "SpringBoot"
 date: 2025-03-27 03:39:16 +0800
 categories: [JavaWeb]
-tags: [spring]     # TAG names should always be lowercase
+tags: ['ml', 'java']
 ---
 
 异常处理

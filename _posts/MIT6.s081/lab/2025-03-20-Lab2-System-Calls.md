@@ -1,9 +1,9 @@
 ---
 title: "lab2 syscall (first time)"
 date: 2025-03-20 03:39:16 +0800
-categories: [MIT6.S081, os_Lab]
-tags: [os]     # TAG names should always be lowercase
+categories: [lab]
 ---
+
 ## Lab2A trace
 
 实现一个叫trace的系统调用，在user/trace.c中有使用trace的源码，而我们的目的就是让这一段用户代码能够跑通，输出我们希望打印的系统调用函数的结果。
@@ -215,4 +215,3 @@ sys_sysinfo(void)
 
 5. `sysinfo`系统调用的`sys_sysinfo`实现函数中，为什么需要用`copyout`函数将内核空间的数据拷贝到用户空间？
 	这是因为xv6采用了内核和用户进程分离的页表机制，详见Lec4笔记
-

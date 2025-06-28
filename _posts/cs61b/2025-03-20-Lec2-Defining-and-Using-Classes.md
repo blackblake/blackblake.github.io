@@ -1,9 +1,10 @@
 ---
 title: "lec2"
 date: 2025-03-20 03:39:16 +0800
-categories: [cs61b, 61b_lec]
-tags: [cs61b]     # TAG names should always be lowercase
+categories: [cs61b]
+tags: ['java']
 ---
+
 ## 类的一般形式
 ---
 1. ![Pasted image 20250228160938](/assets/Image/Pasted image 20250228160938.png)

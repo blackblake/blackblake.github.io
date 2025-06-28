@@ -1,9 +1,11 @@
 ---
 title: "lab1 utilities"
 date: 2025-03-20 03:39:16 +0800
-categories: [MIT6.S081, os_Lab]
-tags: [os]     # TAG names should always be lowercase
+categories: [lab]
+tags: ['dl']
+math: true
 ---
+
 ## sleep.c
 ---
 ### 一些资源

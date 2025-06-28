@@ -1,9 +1,9 @@
 ---
 title: "how to solve problems"
 date: 2025-03-20 03:39:16 +0800
-categories: [Data Structures, note]
-tags: [dsa]     # TAG names should always be lowercase
+categories: [Knowledge]
 ---
+
 #### （1） 先学会看答案
 
 如果一道题超过十分钟还是没想法，果断看答案；但是不是抄答案，而是学思路，然后用自己的代码实现出来
@@ -27,8 +27,4 @@ tags: [dsa]     # TAG names should always be lowercase
 2. 易错点（自己的错误思路）
 3. 关键之处
 4. 技巧细节（比如不会把int转化为string之类）
-5. 
-
-
-
-
+5.

@@ -1,9 +1,10 @@
 ---
 title: "lec3"
 date: 2025-03-20 03:39:16 +0800
-categories: [cs61b, 61b_lec]
-tags: [cs61b]     # TAG names should always be lowercase
+categories: [cs61b]
+tags: ['java']
 ---
+
 **这一讲是重点，多看几遍slides**
 ## Junit
 ---
@@ -31,4 +32,4 @@ import static org.junit.Assert.*；
 ---
 ![Pasted image 20250228190249](/assets/Image/Pasted image 20250228190249.png)
 
-测试提供稳定性和脚手架, 增强对基本单元的信心, 减少打破单元的可能性, 帮助您一次只专注于一项任务. 
+测试提供稳定性和脚手架, 增强对基本单元的信心, 减少打破单元的可能性, 帮助您一次只专注于一项任务.

@@ -1,3 +1,10 @@
+---
+title: "I. 首要任务"
+date: 2025-06-28 11:12:01 +0800
+categories: [LLM]
+tags: ['dl', 'ml', 'llm']
+---
+
 
 # I. 首要任务
 

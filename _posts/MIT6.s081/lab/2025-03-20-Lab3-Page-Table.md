@@ -1,8 +1,8 @@
 ---
 title: "lab3 pgtbl"
-date: 2025-03-26 03:39:16 +0800
-categories: [MIT6.S081, os_Lab]
-tags: [os]     # TAG names should always be lowercase
+date: 2025-03-20 03:39:16 +0800
+categories: [lab]
+tags: ['ml']
 ---
 
 [本篇笔记参考了tzyt's blog](https://ttzytt.com/2022/07/xv6_lab3_record/index.html#post-comment)

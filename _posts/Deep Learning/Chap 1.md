@@ -1,3 +1,11 @@
+---
+title: "拼接"
+date: 2025-06-28 11:12:01 +0800
+categories: [Deep Learning]
+tags: ['ml', 'python']
+math: true
+---
+
 
 1. `import torch` : 不是"pytorch"
 	

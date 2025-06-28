@@ -1,9 +1,10 @@
 ---
 title: "lab3"
 date: 2025-03-20 03:39:16 +0800
-categories: [cs61b, 61b_lab]
-tags: [cs61b]     # TAG names should always be lowercase
+categories: [cs61b]
+tags: ['java', 'algorithm']
 ---
+
 ## 1️⃣总结
 ---
 1. Timing Tests：**测量算法时间效率的方法** （`stopwatch`, `microsec/op`）

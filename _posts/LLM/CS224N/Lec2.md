@@ -1,3 +1,11 @@
+---
+title: "Word to Vector：之前的两种方法"
+date: 2025-06-28 11:12:01 +0800
+categories: [CS224N]
+tags: ['algorithm', 'llm']
+math: true
+---
+
 
 ## Word to Vector：之前的两种方法
 ---

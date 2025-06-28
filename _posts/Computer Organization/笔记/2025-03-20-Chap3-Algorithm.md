@@ -1,10 +1,11 @@
 ---
 title: "chap3 algorithm"
 date: 2025-03-20 03:39:16 +0800
-categories: [cod, note]
-tags: [cod]     # TAG names should always be lowercase
+categories: [笔记]
+tags: ['ml', 'algorithm']
 math: true
 ---
+
 # Add and Sub
 
 #### 1. 纸笔运算
@@ -335,4 +336,3 @@ IEEE754规定所有浮点数运算的中间结果右边都必须至少保留两�
 - `10.00110`，中间值为 `10.00100`，大于中间值，向上舍入为 `10.01`
 - `10.11100`，中间值为 `10.11100`，等于中间值，要保留的最低有效位 `1` 为奇数，向上舍入为 `11.00`
 - `10.10100`，中间值为 `10.10100`，等于中间值，要保留的最低有效位 `0` 为偶数，向下舍入为 `10.10`
-

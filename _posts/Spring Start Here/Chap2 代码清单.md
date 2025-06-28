@@ -1,3 +1,10 @@
+---
+title: "Chap2 代码清单"
+date: 2025-06-28 11:12:01 +0800
+categories: [Spring Start Here]
+tags: ['ml', 'java']
+---
+
 
 **清单 2.2 在 `pom.xml` 文件中添加新依赖 **
 

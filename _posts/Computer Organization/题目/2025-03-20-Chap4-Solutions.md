@@ -1,9 +1,10 @@
 ---
 title: "chap4_solutions"
 date: 2025-03-20 03:39:16 +0800
-categories: [cod, solutions]
-tags: [cod]     # TAG names should always be lowercase
+categories: [题目]
+math: true
 ---
+
 ### 4.1  
 ---
 考虑如下指令
@@ -257,4 +258,4 @@ require control wires for the selector.
 4.28.6 
 - The predictor is 25% accurate on the remaining branches. We know that
 80% of branches are always predicted correctly and the overall accuracy is
-0.85. Th us, **0.8\*1 + 0.2\*x = 0.85**.  x = 0.25. 
+0.85. Th us, **0.8\*1 + 0.2\*x = 0.85**.  x = 0.25.

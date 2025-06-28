@@ -1,3 +1,10 @@
+---
+title: "第二章 Spring 上下文：定义 Bean"
+date: 2025-06-28 11:12:01 +0800
+categories: [Spring Start Here]
+tags: ['java']
+---
+
 
 ### 第二章 Spring 上下文：定义 Bean
 
