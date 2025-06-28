@@ -3,6 +3,7 @@ title: "chap3 algorithm"
 date: 2025-03-20 03:39:16 +0800
 categories: [cod, note]
 tags: [cod]     # TAG names should always be lowercase
+math: true
 ---
 # Add and Sub
 

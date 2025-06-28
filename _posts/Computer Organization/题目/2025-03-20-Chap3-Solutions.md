@@ -3,6 +3,7 @@ title: "chap3_solutions"
 date: 2025-03-20 03:39:16 +0800
 categories: [cod, solutions]
 tags: [cod]     # TAG names should always be lowercase
+math: true
 ---
 ### 提纲
 1.  3.1~3.11这些题很容易迷糊，有时间多做几遍

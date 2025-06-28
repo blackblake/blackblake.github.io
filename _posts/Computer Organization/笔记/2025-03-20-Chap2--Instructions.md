@@ -3,6 +3,7 @@ title: "chap2 instructions"
 date: 2025-03-20 03:39:16 +0800
 categories: [cod, note]
 tags: [cod]     # TAG names should always be lowercase
+math: true
 ---
 ##  指令
 ---
