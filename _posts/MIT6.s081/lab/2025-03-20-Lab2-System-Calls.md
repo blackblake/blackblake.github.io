@@ -198,7 +198,7 @@ sys_sysinfo(void)
 
 补充知识
 ---
-1. **xv6 kernel source files**![[截屏2025-03-14 15.08.48.png|500]]
+1. **xv6 kernel source files**![截屏2025 03 14 15.08.48](/assets/Image/截屏2025-03-14 15.08.48.png){: w="500"}
 2. `kernrl/sysproc.c`这个文件中是与进程相关的系统调用的**实现**，如`sys_exit()`,`sys_trace` and `sys_fork()`...
 
 3. `kernel/sysproc.c`中的sys_trace函数和trace系统调用有什么区别

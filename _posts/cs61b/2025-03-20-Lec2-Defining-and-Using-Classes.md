@@ -6,7 +6,7 @@ tags: [cs61b]     # TAG names should always be lowercase
 ---
 ## 类的一般形式
 ---
-1. ![[Pasted image 20250228160938.png]]
+1. ![Pasted image 20250228160938](/assets/Image/Pasted image 20250228160938.png)
 
 2. **非静态方法**：又称实例方法, 如果方法将被类的实例调用, 那么它就应该是非静态方法。
 	**If the method needs to use “my instance variables”, the method must be non-static.**
@@ -37,7 +37,7 @@ dogs[0].makeNoise();
 	- 实例方法使用实例名调用，例如 maya.makeNoise()；
 	- 静态方法不能访问 "我的“ 实例变量，因为没有 "我"；	
 
-2. 示例![[Pasted image 20250228162521.png]]
+2. 示例![Pasted image 20250228162521](/assets/Image/Pasted image 20250228162521.png)
 
 ## Public and Static
 ---

@@ -29,6 +29,6 @@ import static org.junit.Assert.*；
 
 ## Helper Method -- how to manage complexity
 ---
-![[Pasted image 20250228190249.png]]
+![Pasted image 20250228190249](/assets/Image/Pasted image 20250228190249.png)
 
 测试提供稳定性和脚手架, 增强对基本单元的信心, 减少打破单元的可能性, 帮助您一次只专注于一项任务. 

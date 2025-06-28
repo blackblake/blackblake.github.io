@@ -16,11 +16,11 @@ tags: [cod]     # TAG names should always be lowercase
 	4365和3412这两个数就是八进制数，它们转换为二进制就是12位的。它们相减的差也是一个12位八进制数，求这个差值的八进制表示；
 	所以解答过程就是：先把4365和3412转化为10进制数，然后计算它们的差值的十进制值，再把这个十进制值转化为八进制即可；
 - 注意，像4365这样的八进制数转化为十进制数的方法是：
-  ![[Pasted image 20250109103357.png|300]]
+  ![Pasted image 20250109103357](/assets/Image/Pasted image 20250109103357.png){: w="300"}
 - 十进制数转换为八进制数——除R取余法
-  ![[Pasted image 20250109103857.png|300]]
+  ![Pasted image 20250109103857](/assets/Image/Pasted image 20250109103857.png){: w="300"}
 - 十进制数转化为二进制数
-	![[Pasted image 20250109111040.png|300]]
+	![Pasted image 20250109111040](/assets/Image/Pasted image 20250109111040.png){: w="300"}
 
 ### 3.6~3.11
 ---
@@ -41,30 +41,30 @@ tags: [cod]     # TAG names should always be lowercase
 
 ### 3.12
 ---
-![[Pasted image 20250109111312.png|600]]
+![Pasted image 20250109111312](/assets/Image/Pasted image 20250109111312.png){: w="600"}
 
 ### 3.13
 ---
-![[Pasted image 20250109111753.png|600]]
+![Pasted image 20250109111753](/assets/Image/Pasted image 20250109111753.png){: w="600"}
 
-![[Pasted image 20250109112459.png|500]]
-![[Pasted image 20250109112607.png|500]]
+![Pasted image 20250109112459](/assets/Image/Pasted image 20250109112459.png){: w="500"}
+![Pasted image 20250109112607](/assets/Image/Pasted image 20250109112607.png){: w="500"}
 
 
 ### 3.22
 ---
 - 1+8+23的IEEE表示的浮点数中，8位的E字段，表示的是加完127后的指数！所以由IEEE的32位二进制表示转换为十进制表示时，指数要==-127==
-	 ![[Pasted image 20250109194919.png|350]]
+	 ![Pasted image 20250109194919](/assets/Image/Pasted image 20250109194919.png){: w="350"}
 
 ### 3.23
 ---
 - 与3.22相反，由十进制表示转化为IEEE 32位二进制表示，就要把指数==+127 ==
-	![[Pasted image 20250109195103.png|350]]
+	![Pasted image 20250109195103](/assets/Image/Pasted image 20250109195103.png){: w="350"}
 
 ### 3.24
 ---
 - 3.23的双精度版本，注意双精度的偏移量是1023而不是1024，就像单精度的是127而非128！
-	![[Pasted image 20250109195452.png|350]]
+	![Pasted image 20250109195452](/assets/Image/Pasted image 20250109195452.png){: w="350"}
 - 尾数M部分是**紧贴着E**的最后一位写的。M的最高位就是$2^{-1}$
 
 ### 3.25
@@ -76,7 +76,7 @@ tags: [cod]     # TAG names should always be lowercase
 
 - 题目新定义的浮点数格式，并没有说明“有隐含的前导1”，所以其小数点前面是0而不是1。
   题目也没说偏移量什么的，所以不用管它
-	![[Pasted image 20250109202544.png|350]]
+	![Pasted image 20250109202544](/assets/Image/Pasted image 20250109202544.png){: w="350"}
 
 - **注意负数怎么用补码表示**
 	原码就是“符号-数值形式”，比如-2的原码是1000 0000 0010；
@@ -87,12 +87,12 @@ tags: [cod]     # TAG names should always be lowercase
 ### 3.27
 ---
 - 题目说了有隐含1和偏移量，就要算上
-	![[Pasted image 20250109204137.png|350]]
+	![Pasted image 20250109204137](/assets/Image/Pasted image 20250109204137.png){: w="350"}
 
 - 把十进制数转换为二进制数表示的时候，一定要**先把十进制数变成“小数点左边只有0”的形式**，比如-1.5625要变成-0.15625，否则得到的二进制数表示不一样！
 - 然后如果有**前导1**，就写成$±1.xx×2^n$的形式，否则就保持$±0.xx×2^n$
 
-![[Pasted image 20250109215834.png|500]]
+![Pasted image 20250109215834](/assets/Image/Pasted image 20250109215834.png){: w="500"}
 
 ### 3.30~3.40
 ---

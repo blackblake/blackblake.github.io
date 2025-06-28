@@ -36,7 +36,7 @@ tags: [cs61b]     # TAG names should always be lowercase
    - 右键点击 lab2 或 lab3 文件夹
 
    - 选择 "Mark Directory as" > "Sources Root"
-   - ![[截屏2025-03-06 11.02.14.png|300]]
+   - ![截屏2025 03 06 11.02.14](/assets/Image/截屏2025-03-06 11.02.14.png){: w="300"}
   ---
   
 #### 2）`Application`和`Junit`
@@ -117,7 +117,7 @@ import static org.junit.Assert.*;
 ## 7️⃣条件断点
 ---
 在原来断点的基础上右击，可以设置断点条件，满足条件才暂停
-![[截屏2025-03-06 14.36.46.png|500]]
+![截屏2025 03 06 14.36.46](/assets/Image/截屏2025-03-06 14.36.46.png){: w="500"}
 
 ## 8️⃣Resume按键和执行断点
 ---

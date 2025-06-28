@@ -19,12 +19,12 @@ tags: [cod]     # TAG names should always be lowercase
 - **store指令中**：0(x30)表示把值存到x30所存储的这个地址上去
   
  - 因为偏移量不能用寄存器表示，所以直接把存储A\[0]的x10加上i\*8后的值
-	 ![[Pasted image 20250108204125.png|500]]
+	 ![Pasted image 20250108204125](/assets/Image/Pasted image 20250108204125.png){: w="500"}
 
 ### 2.5
 - 对于16进制数(0x...)，大小端法都是一个字节存“两个数字”
 - “**大佐**”：大端法--高字节即0x最左边的两个数字被存到低地址
-![[Pasted image 20250108200537.png|800]]
+![Pasted image 20250108200537](/assets/Image/Pasted image 20250108200537.png){: w="800"}
 
 ### 2.7
 ---
@@ -47,7 +47,7 @@ tags: [cod]     # TAG names should always be lowercase
 ### 2.11
 `add`和`sub`的结果不溢出的条件是结果＞$2^{63}-1$或＜$-2^{63}$
 	其中63是因为寄存器是64位的，如果寄存器是32位，则改为$2^{31}-1$或$-2^{63}$
-![[Pasted image 20250108212514.png|500]]
+![Pasted image 20250108212514](/assets/Image/Pasted image 20250108212514.png){: w="500"}
 
 ### 2.12-2.15 
 根据机器编码写出指令类型
@@ -66,12 +66,12 @@ tags: [cod]     # TAG names should always be lowercase
 - andi x7, x7, 0xFEF
 	看清是and不是add！是按位与
 - RISC-V 的 `andi` 指令设计为**只对最低 12 位进行操作**，而寄存器的高位保持不变
-	![[Pasted image 20250109021615.png]]
+	![Pasted image 20250109021615](/assets/Image/Pasted image 20250109021615.png)
 	如图，andi指令是**从x7中提取出其最低的12位**，与12位立即数相与，而**不管x7的其他位是什么**；
 
 ### 2.18
 - 不能直接写`andi x5, x5, 0x000000000001F800`，要通过移位得到右边这个imm
-	![[Pasted image 20250109022003.png]]
+	![Pasted image 20250109022003](/assets/Image/Pasted image 20250109022003.png)
 
 ### 2.19 
 ---
@@ -85,12 +85,12 @@ tags: [cod]     # TAG names should always be lowercase
 	\[0x1ff00000, 0x200FFFFE]
 	\[0x1FFFF000, 0x20000ffe]
 解答：
-![[Pasted image 20250109034506.png]]
+![Pasted image 20250109034506](/assets/Image/Pasted image 20250109034506.png)
 - **J型指令只有jal一个**
 - **jalr是I型指令**，因为它的操作数不是label而是imm，PC计算方法是PC+imm
 - B型指令和J型指令的操作数都是label，这个label会被机器自动计算出一个offset，PC计算方法是PC+offset
 
-![[Pasted image 20250109034737.png|500]]
+![Pasted image 20250109034737](/assets/Image/Pasted image 20250109034737.png){: w="500"}
 - B型指令的立即数只有==12位==，故offset范围为==\[-2^11, 2^11 - 1]==
 - J型指令的立即数有20位，故offset范围为 `[-2^19, 2^19 - 1]`
 - PC可跳转地址的范围就是PC＋offset的值的范围
@@ -131,7 +131,7 @@ addi x29, x29, 1
 ---
 - **`JAL`** 指令的第一个操作数（即目标寄存器 `rd`）通常是用来存储返回地址的。如果你将 `rd` 设置为 `x0`，对 `x0` 的任何写操作都会被忽略。因此，**当 `JAL` 的目标寄存器设置为 `x0` 时，返回地址不会被保存**，此时 `JAL` 的行为就变成了一个**单纯的无条件跳转**，类似于**`J` 指令**。
 	
-	![[Pasted image 20250109050703.png|300]]
+	![Pasted image 20250109050703](/assets/Image/Pasted image 20250109050703.png){: w="300"}
 
 - 一个循环框架的4条基本语句：`for(int i-0;i<a;i++)`
 ```
@@ -149,7 +149,7 @@ Exit:
 - 特别注意蓝色的两句
 	x30用来存储&D\[4\*j]这个地址，而==寄存器是不会随着循环而清空的！==
 		所以每次j+1，x30所存储的地址即&D\[4\*j]就要变成&D\[4\*(j+1)]，而这个”+1“要先\*4，然后还要\*8（因为一个数据占8字节），所以x30所存储的地址值每次循环要加32！这个地址值会保持到下次循环，然后`sd x31,0(x30)`中的目标地址0(x30)实际已经是上次sd的地址+32后的地址了！
-	![[Pasted image 20250109052443.png|350]]
+	![Pasted image 20250109052443](/assets/Image/Pasted image 20250109052443.png){: w="350"}
 
 ### 2.27
 ---
@@ -180,12 +180,12 @@ riscv：
 - 递归调用后，x10/x11的值变成了递归调用得到的返回值，如fib(n-1)，为了保存这个返回值，一般会将它压栈保存
 - 在函数的结尾别忘了恢复返回地址`ld x1, 0(x2)`
 - 别忘了弹栈清理数
-![[Pasted image 20250109091714.png|500]]
+![Pasted image 20250109091714](/assets/Image/Pasted image 20250109091714.png){: w="500"}
 
 ### 2.31 
 ---
 - **x12~x15都是参数寄存器**，但不具有返回值寄存器的功能！
-![[Pasted image 20250109094104.png|500]]
+![Pasted image 20250109094104](/assets/Image/Pasted image 20250109094104.png){: w="500"}
 
 
 ### 2.32
@@ -197,7 +197,7 @@ riscv：
 - 条件：函数调用在当前函数的最后一步执行，且调用后不再需要保留当前函数的状态
 - 尾递归是尾调用的一种特殊形式，即函数自己在最后一步调用自己
 
-![[Pasted image 20250109094244.png]]
+![Pasted image 20250109094244](/assets/Image/Pasted image 20250109094244.png)
 
 
 ### 2.35

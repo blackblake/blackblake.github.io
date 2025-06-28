@@ -11,7 +11,7 @@ and rd, rs1, rs2
 解释：Reg\[rd]=Reg\[rs1] AND Reg\[rs2]
 
 **4.1.1　对于上述指令，图4-10中的控制信号各是什么数值？**
-![[Pasted image 20241024204005.png|500]]
+![Pasted image 20241024204005](/assets/Image/Pasted image 20241024204005.png){: w="500"}
 
 ###### ==**在控制信号(control signals)中，值的表示方法如下：**==
 - 对于ALUop：如果不记得00, 01, 10对应什么运算，可以直接写[and], [or], 
@@ -33,7 +33,7 @@ Registers, ALUsrc mux, ALU, and the MemToReg mux.
 
 ### 4.3
 ---
-![[Pasted image 20241024205027.png|500]]
+![Pasted image 20241024205027](/assets/Image/Pasted image 20241024205027.png){: w="500"}
 4.3.1　发生数据访存的指令所占比例？
 **25 + 10 = 35%. Only Load and Store use Data memory**
  
@@ -63,7 +63,7 @@ I-type, loads , stores are all broken.
 
 **4.5.1　此时ALU控制单元的输入值是多少？**
 Th e encoded instruction is sd x12, 20(x13)
-![[Pasted image 20241024205630.png]]
+![Pasted image 20241024205630](/assets/Image/Pasted image 20241024205630.png)
 [详见真值表](obsidian://open?vault=Obsidian%20Vault&file=Images%2FPasted%20image%2020241024160153.png)
 
 **4.5.2　该指令执行结束后新的PC地址是多少？**
@@ -107,7 +107,7 @@ RegWrite: 1
 
 ### 4.7
 ---
-![[Pasted image 20241024210924.png]]
+![Pasted image 20241024210924](/assets/Image/Pasted image 20241024210924.png)
 4.7.1　R型指令的延迟是多少？（如果想让这类指令工作正确，时钟周期最少为多少？）
 R-type : [30 (read PC)] + 250 + 150 + [25 (ALUrcs mux)] + 200 
 \+ [25 (MemtoReg mux)] + [20 (write rd)] = 700ps
@@ -133,7 +133,7 @@ I-type : 30 + 250 + 150 + 25 + 200 + 25 + 20 = 700ps
 
 ### 4.8
 ---
-![[Pasted image 20241024214754.png|500]]
+![Pasted image 20241024214754](/assets/Image/Pasted image 20241024214754.png){: w="500"}
 
 Using the results from Problem 4.7, we see that the average time per
 instruction is **0.52\*700 + 0.25\*950 +0.11\*905 + 0.12\* 705 = 785.6ps（==加权平均，求这种比例分配所导致的平均的指令执行时间==）**
@@ -210,7 +210,7 @@ require control wires for the selector.
 
 ### 4.20
 ---
-![[Pasted image 20250110073539.png|200]]
+![Pasted image 20250110073539](/assets/Image/Pasted image 20250110073539.png){: w="200"}
 ==addi-add属于WB型数据冒险，所以需要stall２个周期，即插入２条NOP==
 （MEM型则只需stall一个周期）
 
@@ -218,9 +218,9 @@ require control wires for the selector.
 ### 4.22
 ---
 
-![[Pasted image 20250110074556.png|600]]
+![Pasted image 20250110074556](/assets/Image/Pasted image 20250110074556.png){: w="600"}
 
-![[Pasted image 20250110074629.png|500]]
+![Pasted image 20250110074629](/assets/Image/Pasted image 20250110074629.png){: w="500"}
 
 - ==“流水线图”不是数据通路图！要知道画什么==
 - **sub-bez是==WB==型（因为要等到sub把值写回x17才能用），所以要插入==2个气泡==！**
@@ -228,22 +228,22 @@ require control wires for the selector.
 
 ### 4.27
 ---
-![[Pasted image 20250110080141.png|200]]
+![Pasted image 20250110080141](/assets/Image/Pasted image 20250110080141.png){: w="200"}
 - 不要忽略掉这种==“隔行的冒险”==！
 - add-ld和or-sd都属于WB型冒险，所以插入2个nop
 - ld-or是 读取ld所加载的寄存器 引发的冒险，所以要停顿2个周期，因为是“隔行”的所以再插入1个就可以了
 
-![[Pasted image 20250110080601.png|500]]
+![Pasted image 20250110080601](/assets/Image/Pasted image 20250110080601.png){: w="500"}
 
-![[Pasted image 20250110081545.png|600]]
+![Pasted image 20250110081545](/assets/Image/Pasted image 20250110081545.png){: w="600"}
 
 ==Forward信号：WB型是01，MEM型是10==
 
 
 ### 4.28
 ---
-![[Pasted image 20250110082750.png|600]]
-![[Pasted image 20250110082813.png|600]]
+![Pasted image 20250110082750](/assets/Image/Pasted image 20250110082750.png){: w="600"}
+![Pasted image 20250110082813](/assets/Image/Pasted image 20250110082813.png){: w="600"}
 
 4.28.1  ==**失败率×branch指令占比×3**==
   + CPI将变为：1+(1-0.55)(0.25)3 = 1.4125
