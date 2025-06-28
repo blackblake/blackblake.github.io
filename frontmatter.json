@@ -57,10 +57,6 @@
     {
       "path": "[[workspace]]/_tabs",
       "title": "_tabs"
-    },
-    {
-      "path": "[[workspace]]/_posts/cs61b",
-      "title": "cs61b"
     }
   ],
   "frontMatter.git.enabled": true
