@@ -1,0 +1,14 @@
+# HTML-Proofer configuration
+checks:
+  images: true
+  links: true
+  scripts: true
+
+# 关闭对外部链接的 HTTPS 强制
+enforce_https: false
+
+# 忽略特定外部链接
+url_ignore:
+  - "http://web.mit.edu/6.s898/www/"
+  - "http://jalammar.github.io/illustrated-transformer/"
+  - "https://lmsys.org" 
